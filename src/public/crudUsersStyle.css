@@ -113,3 +113,27 @@ span{
     border-bottom-right-radius: 120px;
     font-weight: bold;
 }
+
+#form-modal{
+    width: 60vh;
+    height: 60vh;
+    box-shadow: 0 10px 10px darkgrey;
+    background-color: rgb(255, 255, 255);
+    padding: 10px;
+    margin-left: 30%;
+    margin-top: 30px;
+}
+
+#btn-modal-form{
+    width: 20vh;
+    height: 5vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 30%;
+}
+
+.closeFormX{
+    cursor: pointer;
+    text-align: right;
+}
