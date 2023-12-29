@@ -135,5 +135,9 @@ span{
 
 .closeFormX{
     cursor: pointer;
-    text-align: right;
+}
+
+.modalCloseFormeAddPaciente{
+    display: flex;
+    justify-content: right;
 }

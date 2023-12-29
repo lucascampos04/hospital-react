@@ -1,45 +1,242 @@
-import React from "react";
-import "../public/crudUsersStyle.css"
+import React, { useState } from "react";
+import "../public/crudUsersStyle.css";
 
 function FormularioDeAddPaciente({ onClose }) {
+  const handleClose = () => {
+    if (onClose){
+      onClose()
+    }
+  }
+
+
+  const [formDataPaciente, setformDataPaciente] = useState({
+    nome: "",
+    email: "",
+    cpf: "",
+    rg: "",
+    telefone: "",
+    genero: "",
+    planoPaciente: "",
+    dataNascimento: "",
+  });
+
+  const [validationDataFormPaciente, setvalidationDataFormPaciente] = useState({});
+
+  const handleInputChange = (e) => {
+    const { id, value } = e.target;
+    setformDataPaciente({
+      ...formDataPaciente,
+      [id]: value,
+    });
+  };
+
+  const validateNome = () => {
+    if (!/^[A-Za-z\s]+$/.test(formDataPaciente.nome)) {
+      return "O nome não pode conter números";
+    }
+    return "";
+  };
+
+  const validateCpf = () => {
+    if (!/^\d+$/.test(formDataPaciente.cpf)) {
+      return "O CPF só deve conter números";
+    }
+    return "";
+  };
+
+  const validateRg = () => {
+    if (!/^\d+$/.test(formDataPaciente.rg)) {
+      return "O RG só deve conter números";
+    }
+    return "";
+  };
+
+  const validateTelefone = () => {
+    if (!/^\d+$/.test(formDataPaciente.telefone)) {
+      return "O Telefone só deve conter números";
+    }
+    return "";
+  }; 
+
+  const validateForm = () => {
+    const errors = {
+      nome: validateNome(),
+      cpf: validateCpf(),
+      rg: validateRg(),
+      telefone: validateTelefone(),
+    }
+    
+    setvalidationDataFormPaciente(errors)
+    return Object.values(errors).every((errors) => error === "")
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (validateForm()) {
+      console.log("Dados válidos:", formDataPaciente);
+    }
+  };
+
   return (
     <form
-        className="modal fade show"
-        id="form-modal"
-        style={{display:"block"}}
-        tabIndex="-1"
-        role="dialog"
+      className="modal fade show"
+      id="form-modal"
+      style={{ display: "block" }}
+      tabIndex="-1"
+      role="dialog"
+      onSubmit={handleSubmit}
+      autoComplete="off"
     >
+      <div className="modalCloseFormeAddPaciente" onClick={handleClose}>
         <p className="closeFormX fw-bold">X</p>
-      <div className="row mb-3">
-        <div className="col">
-          <label htmlFor="name" className="form-label">Nome</label>
-          <input type="text" className="form-control" id="name_rowOnde" placeholder="Nome" />
-        </div>
       </div>
+
       <div className="row mb-3">
         <div className="col">
-          <label htmlFor="email" className="form-label">Email</label>
-          <input type="email" className="form-control" id="email_usuario" placeholder="Email" />
+          <label htmlFor="nome" className="form-label">
+            Nome
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            id="nome"
+            placeholder="Nome"
+            value={formDataPaciente.nome}
+            onChange={handleInputChange}
+          />
+          {validationDataFormPaciente.nome && (
+            <div className="text-danger alert alert-danger">
+              {validationDataFormPaciente.nome}
+            </div>
+          )}
         </div>
       </div>
 
       <div className="row mb-3">
         <div className="col">
-          <label htmlFor="campo3" className="form-label">CPF</label>
-          <input type="text" className="form-control" id="cpf" placeholder="Cpf" />
-        </div>
-        <div className="col">
-          <label htmlFor="rg" className="form-label">RG</label>
-          <input type="text" className="form-control" id="rg" placeholder="Rg" />
+          <label htmlFor="email" className="form-label">
+            Email
+          </label>
+          <input
+            type="email"
+            className="form-control"
+            id="email"
+            placeholder="Email"
+          />
         </div>
       </div>
 
-      <button 
-        type="submit" 
+      <div className="row mb-3">
+        <div className="col">
+          <label htmlFor="cpf" className="form-label">
+            CPF
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            id="cpf"
+            placeholder="Cpf"
+            value={formDataPaciente.cpf}
+            onChange={handleInputChange}
+          />
+          {validationDataFormPaciente.cpf && (
+            <div className="text-danger">
+              {validationDataFormPaciente.cpf}
+            </div>
+          )}
+        </div>
+        <div className="col">
+          <label htmlFor="rg" className="form-label">
+            RG
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            id="rg"
+            placeholder="Rg"
+            value={formDataPaciente.rg}
+            onChange={handleInputChange}
+          />
+          {validationDataFormPaciente.rg && (
+            <div className="text-danger">
+              {validationDataFormPaciente.rg}
+            </div>
+          )}
+        </div>
+      </div>
+
+      <div className="row mb-3">
+        <div className="col">
+          <label htmlFor="telefone" className="form-label">
+            Telefone
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            id="telefone"
+            placeholder="Telefone"
+            value={formDataPaciente.telefone}
+            onChange={handleInputChange}
+          />
+          {validationDataFormPaciente.telefone && (
+            <div className="text-danger">
+              {validationDataFormPaciente.telefone}
+            </div>
+          )}
+        </div>
+        <div className="col">
+          <label htmlFor="dataNascimento" className="form-label">
+            Data de Nascimento
+          </label>
+          <input
+            type="date"
+            className="form-control"
+            id="dataNascimento"
+            value={formDataPaciente.dataNascimento}
+            onChange={handleInputChange}
+          />
+        </div>
+      </div>
+
+      <div className="row mb-3">
+        <div className="col">
+          <label htmlFor="genero" className="form-label">
+            Gênero
+          </label>
+          <select
+            className="form-control"
+            id="genero"
+            value={formDataPaciente.genero}
+            onChange={handleInputChange}
+          >
+            <option value="masculino">Masculino</option>
+            <option value="feminino">Feminino</option>
+          </select>
+        </div>
+        <div className="col">
+          <label htmlFor="planoPaciente" className="form-label">
+            Plano
+          </label>
+          <select
+            className="form-control"
+            id="planoPaciente"
+            value={formDataPaciente.planoPaciente}
+            onChange={handleInputChange}
+          >
+            <option value="vip">Vip</option>
+            <option value="gold">Gold</option>
+            <option value="silver">Silver</option>
+            <option value="bronze">Bronze</option>
+          </select>
+        </div>
+      </div>
+      <button
+        type="submit"
         className="btn btn-primary"
         id="btn-modal-form"
-      >Enviar
+      >
+        Enviar
       </button>
     </form>
   );

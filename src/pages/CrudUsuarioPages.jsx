@@ -93,7 +93,7 @@ function CrudUsuarios() {
 
       {showAddForm && (
         <div className='form-modal-paciente'>
-            <FormularioDeAddPaciente onCLose={handleCloseForm}/>
+            <FormularioDeAddPaciente onClose={handleCloseForm}/>
         </div>
       )}
 
