@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "../public/crudUsersStyle.css";
+import axios from "axios";
 
 function FormularioDeAddPaciente({ onClose }) {
   const handleClose = () => {
@@ -26,7 +27,7 @@ function FormularioDeAddPaciente({ onClose }) {
     const { id, value } = e.target;
     setformDataPaciente({
       ...formDataPaciente,
-      [id]: value,
+      [id]: id === "email" ? value : value.trim(),
     });
   };
 
@@ -67,17 +68,24 @@ function FormularioDeAddPaciente({ onClose }) {
     }
     
     setvalidationDataFormPaciente(errors)
-    return Object.values(errors).every((errors) => error === "")
+    return Object.values(errors).every((error) => error === "")
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     if (validateForm()) {
-      console.log("Dados válidos:", formDataPaciente);
+      try {
+        const response = await axios.post(
+          'http://localhost:8080/api/v1/usuarios/add/users',
+          formDataPaciente
+        );
+        console.log('Resposta da solicitação POST:', response.data);
+      } catch (error) {
+        console.error('Erro ao enviar dados:', error);
+      }
     }
   };
-
   return (
     <form
       className="modal fade show"
@@ -123,6 +131,8 @@ function FormularioDeAddPaciente({ onClose }) {
             className="form-control"
             id="email"
             placeholder="Email"
+            value={formDataPaciente.email}
+            onChange={handleInputChange}
           />
         </div>
       </div>
@@ -207,11 +217,13 @@ function FormularioDeAddPaciente({ onClose }) {
           <select
             className="form-control"
             id="genero"
+            name="genero"
             value={formDataPaciente.genero}
             onChange={handleInputChange}
           >
-            <option value="masculino">Masculino</option>
-            <option value="feminino">Feminino</option>
+              <option value="">Selecione</option>
+              <option value="Masculino">Masculino</option>
+              <option value="Feminino">Feminino</option>
           </select>
         </div>
         <div className="col">
@@ -223,12 +235,14 @@ function FormularioDeAddPaciente({ onClose }) {
             id="planoPaciente"
             value={formDataPaciente.planoPaciente}
             onChange={handleInputChange}
-          >
-            <option value="vip">Vip</option>
-            <option value="gold">Gold</option>
-            <option value="silver">Silver</option>
-            <option value="bronze">Bronze</option>
-          </select>
+            >
+              <option value="">Selecione</option>
+              <option value="vip">vip</option>
+              <option value="ouro">ouro</option>
+              <option value="prata">prata</option>
+              <option value="bronze">bronze</option>
+              <option value="Nenhum">Nenhum</option>
+        </select>
         </div>
       </div>
       <button

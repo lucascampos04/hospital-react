@@ -23,7 +23,7 @@ function CrudUsuarios() {
         const sortUsersInPlanos = response.data.sort((a, b) => {
           if (a.planoPaciente === "vip" || a.planoPaciente === "gold") {
             return -1;
-          } else if (b.planoPaciente === "vip") {
+          } else if (b.planoPaciente === "gip") {
             return 1;
           } else {
             return 0;
@@ -61,8 +61,11 @@ function CrudUsuarios() {
   return (
     <div className='main-model-crud-users'>
       <header>
-        <button className='btn btn-primary' onClick={handleShowAddForm}>
-          ADICIONAR USUARIO  <i className="material-icons">accessible</i>
+        <button 
+        className='btn btn-primary' 
+        id='label_btn_addPaciente'
+        onClick={handleShowAddForm}>
+          ADICIONAR PACIENTE  <i className="material-icons">accessible</i>
         </button>
         <div className='header-inputs-containers'>
           <div className="search-input-id-model">
