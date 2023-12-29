@@ -80,6 +80,7 @@ function FormularioDeAddPaciente({ onClose }) {
           'http://localhost:8080/api/v1/usuarios/add/users',
           formDataPaciente
         );
+          window.location.reload()
         console.log('Resposta da solicitação POST:', response.data);
       } catch (error) {
         console.error('Erro ao enviar dados:', error);
@@ -237,10 +238,10 @@ function FormularioDeAddPaciente({ onClose }) {
             onChange={handleInputChange}
             >
               <option value="">Selecione</option>
-              <option value="vip">vip</option>
-              <option value="ouro">ouro</option>
-              <option value="prata">prata</option>
-              <option value="bronze">bronze</option>
+              <option value="vip">Vip</option>
+              <option value="gold">gGold</option>
+              <option value="silver">Silver</option>
+              <option value="bronze">Bronze</option>
               <option value="Nenhum">Nenhum</option>
         </select>
         </div>

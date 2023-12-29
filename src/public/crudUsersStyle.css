@@ -30,19 +30,22 @@
     background-color: aliceblue;
 }
 
-.user-cards-container{
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    grid-gap: 30px;
+.user-cards-container {
+    display: flex;
     flex-wrap: wrap;
-    margin-left: 9vh;
+    justify-content: space-around;
     border: 1px solid green;
-}
+    margin: 0 auto;
+    max-width: 2000px;
+  }
+  
 
 .user-card{
     box-shadow: 2px 2px 2px 2px black;
-    width: 300px;
+    flex-basis: calc(33.33% - 20px);
     margin: 10px;
+    width: 800px;
+    overflow: hidden;
 }
 
 span{

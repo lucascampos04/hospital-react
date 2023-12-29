@@ -58,6 +58,10 @@ function CrudUsuarios() {
   const handleCloseForm = () => {
     setShowAddForm(false)
   }
+
+  const handleDeleteUser = (userID) => {
+    setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userID));
+  }
   return (
     <div className='main-model-crud-users'>
       <header>
@@ -89,7 +93,7 @@ function CrudUsuarios() {
           <UserCard key={searchedUser.id} user={searchedUser} />
         ) : (
           users.map((user) => (
-            <UserCard key={user.id} user={user} />
+            <UserCard key={user.id} user={user} onDelete={() => handleDeleteUser(user.id)}/>
           ))
         )}
       </main>
