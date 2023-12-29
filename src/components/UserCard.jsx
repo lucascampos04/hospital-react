@@ -32,11 +32,11 @@ function UserCard({ user, onDelete }) {
         <span>
           <p className="user-plano-model">&nbsp; {user.planoPaciente}</p>
           <div className="actionsUser">
-            <i className="material-icons" id="icon-update-dados-user" title='atualizar'>
+            <i className="material-icons text-primary" id="icon-update-dados-user" title='atualizar'>
               system_update_alt 
             </i>
             <i 
-            className="material-icons" 
+            className="material-icons text-danger" 
             id="icon-update-dados-user" 
             title='delete'
             onClick={(e) => {

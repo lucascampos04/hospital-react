@@ -25,11 +25,49 @@ function FormularioDeAddPaciente({ onClose }) {
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
-    setformDataPaciente({
-      ...formDataPaciente,
-      [id]: id === "email" ? value : value.trim(),
-    });
+
+    if (id === "cpf"){
+      const formattedCPF = formatCPF(e.target.value)
+      setformDataPaciente({
+        ...formDataPaciente,
+        [id]: value,
+        formattedCPF
+      })
+    } else if (id === "email") {
+      setformDataPaciente({
+        ...formDataPaciente,
+        [id]: id === "email" ? value : value.trim(),
+      });
+    } else if (id === "rg"){
+      const formattedRG = formatRG(e.target.value)
+      setformDataPaciente({
+        ...formDataPaciente,
+        [id]: formattedRG
+      })
+    }
   };
+
+  const formatCPF = (value) => {
+    const cleanedValue = (value && typeof value === 'string') ? value.replace(/\D/g, "") : ''
+    const cpfArray = cleanedValue.split("")
+
+    cpfArray.splice(3,0, ".")
+    cpfArray.splice(7,0, ".")
+    cpfArray.splice(11,0, "-")
+
+    return cpfArray.join("".substring(0, 14))
+  }
+
+  const formatRG = (value) => {
+    const cleanedValue = (value && typeof value === 'string') ? value.replace(/\D/g, "") : ''
+    const rgArray = cleanedValue.split("")
+
+    rgArray.splice(3,0, ".")
+    rgArray.splice(6,0, ".")
+
+    return rgArray.join("".substring(0, 12))
+  }
+
 
   const validateNome = () => {
     if (!/^[A-Za-z\s]+$/.test(formDataPaciente.nome)) {
@@ -148,8 +186,9 @@ function FormularioDeAddPaciente({ onClose }) {
             className="form-control"
             id="cpf"
             placeholder="Cpf"
-            value={formDataPaciente.cpf}
+            value={formatCPF(formDataPaciente.cpf)}
             onChange={handleInputChange}
+            maxLength="14"
           />
           {validationDataFormPaciente.cpf && (
             <div className="text-danger">
@@ -166,8 +205,9 @@ function FormularioDeAddPaciente({ onClose }) {
             className="form-control"
             id="rg"
             placeholder="Rg"
-            value={formDataPaciente.rg}
+            value={formatRG(formDataPaciente.rg)}
             onChange={handleInputChange}
+            maxLength={12}
           />
           {validationDataFormPaciente.rg && (
             <div className="text-danger">
