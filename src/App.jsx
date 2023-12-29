@@ -7,7 +7,6 @@ import CrudUsuarios from './pages/CrudUsuarioPages'
 function App() {
 
   return (
-    <body>
       <BrowserRouter>
         <Routes>
           <Route
@@ -23,7 +22,6 @@ function App() {
           />
         </Routes>
       </BrowserRouter>
-    </body>
   )
 }
 
