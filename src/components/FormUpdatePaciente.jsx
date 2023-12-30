@@ -11,6 +11,7 @@ function FormularioDeAtualizarPaciente({ onClose, usuarioParaAtualizar }) {
 
   const [formDataPaciente, setformDataPaciente] = useState({
     nome: "",
+    password : "",
     email: "",
     cpf: "",
     rg: "",
@@ -86,15 +87,15 @@ function FormularioDeAtualizarPaciente({ onClose, usuarioParaAtualizar }) {
   };
 
   const validateCpf = () => {
-    if (!/^\d+$/.test(formDataPaciente.cpf)) {
-      return "O CPF só deve conter números";
+    if (!/^\d{3}[-\.\/]?\d{3}[-\.\/]?\d{3}[-\.\/]?\d{2}$/.test(formDataPaciente.cpf)) {
+      return "O CPF deve conter apenas números, pontos e traços";
     }
     return "";
   };
-
+  
   const validateRg = () => {
-    if (!/^\d+$/.test(formDataPaciente.rg)) {
-      return "O RG só deve conter números";
+    if (!/^\d{1,3}[-\.\/]?\d{1,3}[-\.\/]?\d{1,3}[-\.\/]?\d{1,2}$/.test(formDataPaciente.rg)) {
+      return "O RG deve conter apenas números, pontos e traços";
     }
     return "";
   };
@@ -124,7 +125,7 @@ function FormularioDeAtualizarPaciente({ onClose, usuarioParaAtualizar }) {
     if (validateForm()) {
       try {
         const response = await axios.put(
-          `http://localhost:8080/api/v1/usuarios/update/${usuarioParaAtualizar.id}`,
+          `http://localhost:8080/api/v1/usuarios/update/users/${usuarioParaAtualizar.id}`,
           formDataPaciente
         );
 
@@ -168,6 +169,20 @@ function FormularioDeAtualizarPaciente({ onClose, usuarioParaAtualizar }) {
               {validationDataFormPaciente.nome}
             </div>
           )}
+        </div>
+
+        <div className="col">
+          <label htmlFor="password" className="form-label">
+            Password
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            id="password"
+            placeholder="Password"
+            value={formDataPaciente.password}
+            onChange={handleInputChange}
+          />
         </div>
       </div>
 

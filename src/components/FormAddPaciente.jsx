@@ -9,7 +9,6 @@ function FormularioDeAddPaciente({ onClose }) {
     }
   }
 
-
   const [formDataPaciente, setformDataPaciente] = useState({
     nome: "",
     email: "",
@@ -25,27 +24,53 @@ function FormularioDeAddPaciente({ onClose }) {
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
-
-    if (id === "cpf"){
-      const formattedCPF = formatCPF(e.target.value)
+  
+    if (id === "cpf") {
+      const formattedCPF = formatCPF(e.target.value);
       setformDataPaciente({
         ...formDataPaciente,
-        [id]: value,
-        formattedCPF
-      })
+        [id]: formattedCPF,
+      });
     } else if (id === "email") {
       setformDataPaciente({
         ...formDataPaciente,
         [id]: id === "email" ? value : value.trim(),
       });
-    } else if (id === "rg"){
-      const formattedRG = formatRG(e.target.value)
+    } else if (id === "rg") {
+      const formattedRG = formatRG(e.target.value);
       setformDataPaciente({
         ...formDataPaciente,
-        [id]: formattedRG
+        [id]: formattedRG,
+      });
+    } else if (id === "nome") {
+      setformDataPaciente({
+        ...formDataPaciente,
+        [id]: value,
+      });
+    } else if (id === "telefone") {
+      setformDataPaciente({
+        ...formDataPaciente,
+        [id]: value,
+      })
+    } else if (id === "dataNascimento") {
+      setformDataPaciente({
+        ...formDataPaciente,
+        [id]: value,
+      })
+    } else if (id === "planoPaciente") {
+      setformDataPaciente({
+        ...formDataPaciente,
+        [id]: value,
+      })
+    } else if (id === "genero") {
+      setformDataPaciente({
+        ...formDataPaciente,
+        [id]: value,
       })
     }
+
   };
+  
 
   const formatCPF = (value) => {
     const cleanedValue = (value && typeof value === 'string') ? value.replace(/\D/g, "") : ''
@@ -64,32 +89,33 @@ function FormularioDeAddPaciente({ onClose }) {
 
     rgArray.splice(3,0, ".")
     rgArray.splice(6,0, ".")
+    rgArray.splice(10,0, "-")
 
     return rgArray.join("".substring(0, 12))
   }
 
 
   const validateNome = () => {
-    if (!/^[A-Za-z\s]+$/.test(formDataPaciente.nome)) {
+    if (!/^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$/.test(formDataPaciente.nome)) {
       return "O nome não pode conter números";
     }
     return "";
   };
 
   const validateCpf = () => {
-    if (!/^\d+$/.test(formDataPaciente.cpf)) {
-      return "O CPF só deve conter números";
+    if (!/^\d{3}[-\.\/]?\d{3}[-\.\/]?\d{3}[-\.\/]?\d{2}$/.test(formDataPaciente.cpf)) {
+      return "O CPF deve conter apenas números, pontos e traços";
     }
     return "";
   };
-
+  
   const validateRg = () => {
-    if (!/^\d+$/.test(formDataPaciente.rg)) {
-      return "O RG só deve conter números";
+    if (!/^\d{1,3}[-\.\/]?\d{1,3}[-\.\/]?\d{1,3}[-\.\/]?\d{1,2}$/.test(formDataPaciente.rg)) {
+      return "O RG deve conter apenas números, pontos e traços";
     }
     return "";
   };
-
+  
   const validateTelefone = () => {
     if (!/^\d+$/.test(formDataPaciente.telefone)) {
       return "O Telefone só deve conter números";
