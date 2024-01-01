@@ -5,7 +5,6 @@
 .main-model-crud-users{
     display: flex;
     flex-direction: column;
-    box-shadow: 10px 1px black;
     height: 80vh;
     background-color: #FFFFFF;
 }
@@ -13,7 +12,7 @@
 .main-model-crud-users header{
     display: flex;
     justify-content: space-between;
-    border: 1px solid red;
+    box-shadow: 0 2px 2px black;
     padding: 10px;
     gap: 30px;
 }
@@ -34,11 +33,15 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
-    border: 1px solid green;
     margin: 0 auto;
     max-width: 2000px;
-  }
-  
+}
+
+.user-cards-container .msg-error-to-connect-in-api{
+    color:red;
+    font-size: 20px;
+    font-weight: bold;
+}
 
 .user-card{
     box-shadow: 2px 2px 2px 2px black;

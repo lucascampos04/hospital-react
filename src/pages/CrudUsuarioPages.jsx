@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import UserCard from '../components/UserCard';
-import FormularioDeAddPaciente from '../components/FormAddPaciente';
+import FormularioDeAddPaciente from "../components/FormsAllEventsOfEmployees/FormAddPaciente"
 import "../public/crudUsersStyle.css"
+import UserCard from '../components/Cards/UserCard';
+
 
 
 function CrudUsuarios() {
@@ -23,7 +24,7 @@ function CrudUsuarios() {
         const sortUsersInPlanos = response.data.sort((a, b) => {
           if (a.planoPaciente === "vip" || a.planoPaciente === "gold") {
             return -1;
-          } else if (b.planoPaciente === "gip") {
+          } else if (b.planoPaciente === "vip") {
             return 1;
           } else {
             return 0;
@@ -33,7 +34,7 @@ function CrudUsuarios() {
         setUsers(sortUsersInPlanos);
       } catch (error) {
         console.error("Erro ao conectar com a rota : http://localhost:8080/api/v1/usuarios/list/users || Erro : " + error);
-        setError("Erro ao conectar com o sistema. Erro : " + error);
+        setError("Erro ao conectar com o sistema | Erro : " + error);
       }
     };
 
@@ -41,15 +42,34 @@ function CrudUsuarios() {
   }, []);
 
   // Função de buscar paciente
-  const handleSearchUser = async () => {
-    try {
-      const response = await axios.get(`http://localhost:8080/api/v1/usuarios/search-from/user/${searchUserFromID}`);
-      setSearchedUser(response.data);
-    } catch (error) {
-      alert("Erro ao buscar usuário por ID: ", error);
-      setSearchedUser(null);
-    }
-  };
+const handleSearchUser = async () => {
+  try {
+    const response = await axios.get(`http://localhost:8080/api/v1/usuarios/search-from/user/${searchUserFromID}`);
+    
+    const userWithPlano = response.data;
+
+    setUsers((prevUsers) => {
+      const updatedUsers = [...prevUsers.filter(user => user.id !== userWithPlano.id), userWithPlano].sort((a, b) => {
+        if (a.planoPaciente === "vip" || a.planoPaciente === "gold") {
+          return -1;
+        } else if (b.planoPaciente === "vip") {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+
+      return updatedUsers;
+    });
+    
+    setSearchedUser(userWithPlano);
+  } catch (error) {
+    alert("Erro ao buscar usuário por ID: ", error);
+    setSearchedUser(null);
+  }
+};
+
+  
 
   const handleShowAddForm = () => {
     setShowAddForm(true)
@@ -70,7 +90,7 @@ function CrudUsuarios() {
         id='label_btn_addPaciente'
         onClick={handleShowAddForm}>
           ADICIONAR PACIENTE  <i className="material-icons">accessible</i>
-        </button>
+        </button> 
         <div className='header-inputs-containers'>
           <div className="search-input-id-model">
             <input
@@ -88,7 +108,7 @@ function CrudUsuarios() {
       </header>
       <main className='user-cards-container'>
         {error ? (
-          <h1>{error}</h1>
+          <h1 className='msg-error-to-connect-in-api'>{error}</h1>
         ) : searchedUser ? (
           <UserCard key={searchedUser.id} user={searchedUser} />
         ) : (
