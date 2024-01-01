@@ -1,0 +1,96 @@
+.container-fluid{
+    background-color: #ade8f4;
+    height: 100vh;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+}
+
+.formularioLogin{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 2px 2px 2px 2px black;
+    border-radius: 30px;
+    height: 50vh;
+    margin-bottom: 40vh;
+    padding: 14px;
+}
+
+.formularioLogin h2{
+    font-weight: bold;
+    font-size: 70px;
+    color: white;
+    -webkit-text-stroke: 1px black;
+}
+
+.formularioLogin .form-group input{
+    width: 400px;
+    height: 35px;
+}
+
+.formularioLogin button{
+    width: 150px;
+    font-weight: bold;
+    font-size: 30px;
+    padding: 0%;
+    text-align: center;
+}
+
+.password-input {
+    position: relative;
+  }
+  
+.eye-icon {
+    position: absolute;
+    top: 35%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+.material-icons.eye-icon {
+    font-size: 24px;
+    color: #555;
+}
+
+.esqueceuSenha{
+    margin: 0%;
+    cursor: pointer;
+}
+
+.group-btns{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+}
+
+.group-btns i{
+    transition: 2s;
+    border: none;
+    color: black;
+}
+
+.create-account-btn{
+    cursor: pointer;
+    text-align: center;
+}
+
+.loginGoogle{
+    height: 10vh;
+    display: flex;
+    margin: auto 0;
+    margin-top: 8.2vh;
+    justify-content: center;
+    box-shadow: 0px 5px 2px black;
+    border-radius: 30px;
+    
+}
+
+.loginGoogle img{
+    width: 70px;
+    height: auto;
+    cursor: pointer;
+    height: 70px;
+}
