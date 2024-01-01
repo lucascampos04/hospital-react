@@ -3,6 +3,7 @@ import "./App.css"
 import { Helmet } from 'react-helmet'
 import {BrowserRouter, Route, Routes} from "react-router-dom"
 import CrudUsuarios from './pages/CrudUsuarioPages'
+import LoginPage from './pages/LoginPages'
 
 function App() {
 
@@ -19,6 +20,19 @@ function App() {
                 <CrudUsuarios/>
               </>
             }
+          />
+
+          <Route
+            path='/login'
+            element={
+              <>
+                <Helmet>
+                  <title>Login</title>
+                </Helmet>
+                <LoginPage/>
+              </>
+            }
+          
           />
         </Routes>
       </BrowserRouter>
