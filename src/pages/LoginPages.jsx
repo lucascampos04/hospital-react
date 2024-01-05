@@ -1,16 +1,32 @@
 import React, { useState } from "react";
 import "../public/loginStyle.css";
 import GoogleImg from "../public/img/pesquisa.png"
+import axios from "axios";
 
 function LoginPage() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [isEmail, setEmail] = useState("");
+  const [isPassword, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    console.log("Username:", username);
-    console.log("Password:", password);
+    
+    try {
+      const response = await axios.post('http://localhost:8080/api/v1/login/auth', {
+          email : isEmail,
+          password : isPassword,
+      })
+
+      console.log("Login sucess " + response.data)
+    } catch (error) {
+      if (error.response){
+        console.log("Failed login ")
+      } else if(error.response){
+        console.log("No response received")
+      } else {
+        console.error("Erro ao conectar com a rota ", error);
+      }
+    }
   };
 
   const togglePasswordVisibility = () => {
@@ -29,8 +45,8 @@ function LoginPage() {
               id="username"
               placeholder="Username"
               required
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={isEmail}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div className="form-group">
@@ -41,7 +57,7 @@ function LoginPage() {
                 id="password"
                 placeholder="Senha"
                 required
-                value={password}
+                value={isPassword}
                 onChange={(e) => setPassword(e.target.value)}
               />
               <div className="eye-icon" onClick={togglePasswordVisibility}>
