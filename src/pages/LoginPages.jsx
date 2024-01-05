@@ -8,26 +8,29 @@ function LoginPage() {
   const [isPassword, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
+
+
   const handleLogin = async (e) => {
     e.preventDefault();
-    
+  
     try {
       const response = await axios.post('http://localhost:8080/api/v1/login/auth', {
-          email : isEmail,
-          password : isPassword,
-      })
+        email: isEmail,
+        password: isPassword,
+      });
 
-      console.log("Login sucess " + response.data)
+      console.log("Login sucess")
     } catch (error) {
-      if (error.response){
-        console.log("Failed login ")
-      } else if(error.response){
-        console.log("No response received")
+      if (error.response) {
+        console.log("Failed login. Server responded with:", error.response.data);
+      } else if (error.request) {
+        console.log("No response received");
       } else {
         console.error("Erro ao conectar com a rota ", error);
       }
     }
   };
+  
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
