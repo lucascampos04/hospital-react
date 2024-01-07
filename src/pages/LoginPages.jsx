@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../public/loginStyle.css";
 import GoogleImg from "../public/img/pesquisa.png"
 import axios from "axios";
@@ -7,30 +7,78 @@ function LoginPage() {
   const [isEmail, setEmail] = useState("");
   const [isPassword, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [isUserRole, setUserRole] = useState(null);
+  const [error, setError] = useState(null);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/api/v1/login/auth', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: isEmail,
+            password: isPassword,
+          }),
+        });
 
+        const data = await response.json();
+
+        if (response.ok) {
+          const { role } = data;
+          setUserRole(role);
+          setError(null);
+          console.log("User Role:", role);
+        } else {
+          setError(data.message || "Erro desconhecido ao fazer login.");
+          console.error("Erro ao fazer login:", data);
+        }
+      } catch (error) {
+        setError("Erro ao fazer login | Erro : " + error);
+  
+      }
+    };
+
+    fetchData();
+  }, [isEmail, isPassword]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
-  
+
     try {
-      const response = await axios.post('http://localhost:8080/api/v1/login/auth', {
-        email: isEmail,
-        password: isPassword,
+      const response = await fetch('http://localhost:8080/api/v1/login/auth', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: isEmail,
+          password: isPassword,
+        }),
       });
 
-      console.log("Login sucess")
-    } catch (error) {
-      if (error.response) {
-        console.log("Failed login. Server responded with:", error.response.data);
-      } else if (error.request) {
-        console.log("No response received");
+      const data = await response.json();
+
+      if (response.ok) {
+        const { role } = data;
+        setUserRole(role);
+        setError(null);
+        console.log("User Role:", role);
+
+        if (role === "PACIENTE"){
+          window.location.href = "/pacientes"
+        }
       } else {
-        console.error("Erro ao conectar com a rota ", error);
+        setError(data.message || "Erro desconhecido ao fazer login.");
+        console.error("Erro ao fazer login:", data);
       }
+    } catch (error) {
+      setError("Erro desconhecido ao fazer login.");
+      console.error("Erro ao fazer login:", error);
     }
   };
-  
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -83,8 +131,9 @@ function LoginPage() {
           </div>
         </form>
         <div className="container loginGoogle">
-            <img src={GoogleImg}/>
+          <img src={GoogleImg}/>
         </div>
+        {error && <div className="error-message">{error}</div>}
       </div>
     </div>
   );
