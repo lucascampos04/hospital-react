@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
-import "../public/loginStyle.css";
-import GoogleImg from "../public/img/pesquisa.png"
+import React, { useState } from "react";
 import { authenticateUser } from "../Services/Auth/authenticateUser";
+import LoginForm from "../components/LoginForm/LoginForm";
 
 function LoginPage() {
   const [isEmail, setEmail] = useState("");
@@ -34,57 +33,17 @@ function LoginPage() {
   };
 
   return (
-    <div className="container-fluid">
-      <div className="formularioLogin">
-        <h2>Login</h2>
-        <form onSubmit={handleLogin}>
-          <div className="form-group">
-            <label htmlFor="username" className="fw-bold text">Username:</label> <br />
-            <input
-              type="text"
-              id="username"
-              placeholder="Username"
-              required
-              value={isEmail}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="password" className="fw-bold">Senha:</label> <br />
-            <div className="password-input">
-              <input
-                type={showPassword ? "text" : "password"}
-                id="password"
-                placeholder="Senha"
-                required
-                value={isPassword}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <div className="eye-icon" onClick={togglePasswordVisibility}>
-                {showPassword ? (
-                  <i className="material-icons">visibility_off</i>
-                ) : (
-                  <i className="material-icons">visibility</i>
-                )}
-              </div>
-              <div className="info-icon fw-bold">
-                <i className="esqueceuSenha">Esquecer Senha</i>
-              </div>
-            </div>
-          </div>
-          <div className="group-btns">
-            <button type="submit" className="btn btn-success mt-3">
-              Login
-            </button>
-            <i className="fw-bold border create-account-btn">Criar Conta</i>
-          </div>
-        </form>
-        <div className="container loginGoogle">
-          <img src={GoogleImg}/>
-        </div>
-        {error && <div className="error-message">{error}</div>}
-      </div>
-    </div>
+    <LoginForm
+      handleLogin={handleLogin}
+      isEmail={isEmail}
+      setEmail={setEmail}
+      isPassword={isPassword}
+      setPassword={setPassword}
+      showPassword={showPassword}
+      togglePasswordVisibility={togglePasswordVisibility}
+      error={error}
+      isButtonDisabled={isButtonDisabled}
+    />
   );
 }
 
