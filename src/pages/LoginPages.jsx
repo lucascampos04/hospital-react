@@ -1,83 +1,32 @@
 import React, { useEffect, useState } from "react";
 import "../public/loginStyle.css";
 import GoogleImg from "../public/img/pesquisa.png"
-import axios from "axios";
+import { authenticateUser } from "../Services/Auth/authenticateUser";
 
 function LoginPage() {
   const [isEmail, setEmail] = useState("");
   const [isPassword, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isUserRole, setUserRole] = useState(null);
+  const [isUserCPF, setUserCPF] = useState(null);
+  const [isUserNome, setUserNome] = useState(null);
   const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch('http://localhost:8080/api/v1/login/auth', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            email: isEmail,
-            password: isPassword,
-          }),
-        });
-
-        const data = await response.json();
-
-        if (response.ok) {
-          const { role } = data;
-          setUserRole(role);
-          setError(null);
-          console.log("User Role:", role);
-        } else {
-          setError(data.message || "Erro desconhecido ao fazer login.");
-          console.error("Erro ao fazer login:", data);
-        }
-      } catch (error) {
-        setError("Erro ao fazer login | Erro : " + error);
-  
-      }
-    };
-
-    fetchData();
-  }, [isEmail, isPassword]);
+  const [isButtonDisabled, setButtonDisabled] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
+    setButtonDisabled(true)
     try {
-      const response = await fetch('http://localhost:8080/api/v1/login/auth', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: isEmail,
-          password: isPassword,
-        }),
-      });
+      await authenticateUser(isEmail, isPassword, setUserRole,setUserNome,setUserCPF, setError);
 
-      const data = await response.json();
-
-      if (response.ok) {
-        const { role } = data;
-        setUserRole(role);
-        setError(null);
-        console.log("User Role:", role);
-
-        if (role === "PACIENTE"){
-          window.location.href = "/pacientes"
-        }
-      } else {
-        setError(data.message || "Erro desconhecido ao fazer login.");
-        console.error("Erro ao fazer login:", data);
-      }
+      setTimeout(() => {
+        setButtonDisabled(false)
+      }, 3000)
     } catch (error) {
-      setError("Erro desconhecido ao fazer login.");
-      console.error("Erro ao fazer login:", error);
+      
     }
+    
   };
 
   const togglePasswordVisibility = () => {
